@@ -5,3 +5,23 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+puts "starting seeding process"
+
+5.times do
+  restaurant = Restaurant.new(
+    name:    Faker::Beer.name,
+    address: Faker::Address.street_address,
+    phone_number: Faker::PhoneNumber.phone_number,
+    category: ['chinese', 'italian', 'japanese', 'french', 'belgian'].sample
+  )
+  restaurant.save!
+  3.times do
+    review = Review.new(
+      content:    Faker::DumbAndDumber.quote,
+      rating:  rand(0..5),
+      restaurant: restaurant # equivalent to writing: restaurant_id: restaurant.id # we need to specify the user id, otherwise it will be nil by default
+    )
+    review.save!
+  end
+end
